@@ -1,0 +1,18 @@
+name: My GitHub Pipeline
+
+# 1. This tells GitHub to run the pipeline every time you push code
+on:
+  push:
+    branches: [ main, master ]  # Change this to match your branch name
+
+# 2. This defines what the pipeline actually does
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest  # Runs on a fresh cloud server
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4  # Downloads your repository code
+
+    - name: Run a Sample Command
+      run: echo "Code pushed successfully! Running tests..."
