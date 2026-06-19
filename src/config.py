@@ -5,7 +5,7 @@ CSV_FILE_PATH = r'E:\python_project_demo\data\sample_data.csv'
 # }
 
 ORA_CONFIG = {
-    'connection_stringa': 'ora://scott:tiger@localhost:1523/xe'
+    'connection_string': 'ora://scott:tiger@localhost:1523/xe'
 }
 
 MYSQL_CONFIG ={

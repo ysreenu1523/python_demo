@@ -1,0 +1,35 @@
+name: Run Local MySQL Data Load
+
+on:
+  workflow_dispatch: # Allows you to manually click "Run workflow" in GitHub
+  push:
+    branches:
+      - main
+
+jobs:
+  run-local-pipeline:
+    runs-on: [self-hosted, windows] # Tells GitHub to execute this on your Windows laptop
+    env:
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DB_NAME: analytics
+      TABLE_NAME: sample
+      CSV_FILE: data/sample_date.csv
+      CHUNK_SIZE: 1000
+      
+    steps:
+    # Step 1: Pull the latest code from GitHub to your laptop
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    # Step 2: Install required Python packages locally
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mysql-connector-python pandas
+
+    # Step 3: Execute the script
+    - name: Execute Python Pipeline
+      run: python data_loader.py
