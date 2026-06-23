@@ -3,5 +3,3 @@ sqlalchemy
 psycopg2-binary  # if using PostgreSQL
 # or other DB driver as needed
 python-dotenv
-pymysql
-cryptography
