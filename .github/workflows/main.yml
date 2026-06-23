@@ -5,26 +5,14 @@ on:
     branches:
       - main
     paths:
+      
       - 'data_loader.py'
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   load-data:
     runs-on: ubuntu-latest
     
-    # 1. ADD THE MYSQL SERVICE HERE
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_SCHEMA: ${{ secrets.MYSQL_SCHEMA }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,13 +28,22 @@ jobs:
           pip install pymysql cryptography
           pip install --no-cache-dir -r requirements.txt
       
-      - name: Load CSV to MySQL
+      - name: Load CSV to Snowflake
         env:
           DATA_PATH: ${{ github.workspace }}/data/sample_data.csv
-          # 2. OVERRIDE HOST TO TARGET THE CONTAINER RUNNING ON LOCALHOST
+          
+          
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_HOST: 127.0.0.1
+          MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
           MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
           MYSQL_SCHEMA: ${{ secrets.MYSQL_SCHEMA }}
         run: python ${{ github.workspace }}/src/data_loader.py
+                
+      - name: Notify on Success
+        if: success()
+        run: echo "✓ Data loaded successfully to MySQL"
+      
+      - name: Notify on Failure
+        if: failure()
+        run: echo "✗ Failed to load data"
