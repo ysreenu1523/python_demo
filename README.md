@@ -1,4 +1,4 @@
-# CSV Data Loader Project
+# CSV Data Loader Project using MySQL
 
 This project reads data from a CSV file and loads it into a database table.
 

@@ -1,13 +1,12 @@
-CSV_FILE_PATH = r'E:\python_project_demo\data\sample_data.csv'
+import os
 
-# DB_CONFIG = {
-#     'connection_string': 'ORACLE://scott:tiger@localhost:1523/mydatabase'
-# }
+def mysql_conn():
+    USER=os.getenv("MYSQL_USER")
+    PASSWORD=os.getenv("MYSQL_PASSWORD")
+    HOST=os.getenv("MYSQL_HOST")
+    PORT=os.getenv("MYSQL_PORT")
+    DATABASE=os.getenv("MYSQL_SCHEMA")
 
-ORA_CONFIG = {
-    'connection_string': 'ora://scott:tiger@localhost:1523/xe'
-}
+    mysql_connection_string = f'mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}'
 
-MYSQL_CONFIG ={
-'connection_string': 'mysql+pymysql://root:tiger@localhost/analytics'
-}
+    return mysql_connection_string
