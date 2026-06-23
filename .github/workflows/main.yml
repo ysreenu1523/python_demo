@@ -1,4 +1,4 @@
-name: Load CSV to Snowflake
+name: Load CSV to MySQL
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
     paths:
       
-      - 'load_to_snowflake.py'
+      - 'data_loader.py'
   workflow_dispatch:  # Manual trigger
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
                 
       - name: Notify on Success
         if: success()
-        run: echo "✓ Data loaded successfully to Snowflake"
+        run: echo "✓ Data loaded successfully to MySQL"
       
       - name: Notify on Failure
         if: failure()
