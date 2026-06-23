@@ -25,6 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install pymysql cryptography
           pip install --no-cache-dir -r requirements.txt
       
       - name: Load CSV to Snowflake
